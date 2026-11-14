@@ -21,8 +21,8 @@ Content-Type: application/json
 
 {
   "BedName": "new bed",
-  "BedState": "Growing",
-  "DatePlanted": "11/11/2011",
+  "BedState": "Planned",
+  "DatePlanted": "2026-05-28T00:00:00",
   "GuideTitle": "Tomatoes from Seed",
   "PlantName": "Sungold Tomato",
   "ToolName": "Trowel"

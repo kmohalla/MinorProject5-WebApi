@@ -118,5 +118,13 @@ namespace GardenBusiness
                 Difficulty = guideDTO.Difficulty,
             };
         }
+
+        public static void UpdateFromDTO(Guide existigGuide, GuideDTO guideDTO)
+        {
+            existigGuide.Name = guideDTO.Title;
+            existigGuide.Author = guideDTO.Author;
+            existigGuide.Season = guideDTO.PlantingSeason;
+            existigGuide.Difficulty = guideDTO.Difficulty;
+        }
     }
 }

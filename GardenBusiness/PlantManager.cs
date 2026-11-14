@@ -158,5 +158,20 @@ namespace GardenBusiness
                 Supplier = existingSupplier
             };
         }
+        public async Task UpdateFromDTO(Plant existingPlant, PlantDTO plantDTO)
+        {
+            //find the supplier based on the DTO
+            Supplier? existingSupplier = plantDTO.SourceName == null ? null : await _context.FindSupplierByName(plantDTO.SourceName);
+            if (existingSupplier == null)
+            {
+                throw new ApplicationException($"Supplier with name {plantDTO.SourceName} not found.");
+            }
+            existingPlant.Name = plantDTO.CommonName;
+            existingPlant.Family = plantDTO.Family;
+            existingPlant.Type = plantDTO.Type;
+            existingPlant.Color = plantDTO.Color;
+            existingPlant.SupplierId = existingSupplier.Id;
+            existingPlant.Supplier = existingSupplier;
+        }
     }
 }
