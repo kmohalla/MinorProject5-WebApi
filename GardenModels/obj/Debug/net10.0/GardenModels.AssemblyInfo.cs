@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GardenModels")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5a73877bbe01a309161c2e302cf6e481b341b762")]
 [assembly: System.Reflection.AssemblyProductAttribute("GardenModels")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GardenModels")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
