@@ -1,0 +1,83 @@
+@GardenApi_HostAddress = https://localhost:7212
+
+
+// defaault API endpoint
+GET {{GardenApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+//Gardenbeds--standard behavior
+GET {{GardenApi_HostAddress}}/api/gardenbeds
+
+###
+
+@id=2
+GET {{GardenApi_HostAddress}}/api/gardenbeds/{{id}}
+
+###
+POST {{GardenApi_HostAddress}}/api/gardenbeds
+Content-Type: application/json
+
+{
+  "BedName": "new bed",
+  "BedState": "Growing",
+  "DatePlanted": "11/11/2011",
+  "GuideTitle": "Tomatoes from Seed",
+  "PlantName": "Sungold Tomato",
+  "ToolName": "Trowel"
+
+}
+
+###
+
+@id=3
+PUT {{GardenApi_HostAddress}}/api/gardenbeds/{{id}}
+Content-Type: application/json
+
+{
+  "id": 3,
+  "bedName": "Front Walk Flowers-edited",
+  "bedState": "Harvested",
+  "datePllanted": "2026-05-28T00:00:00",
+  "guideTitle": "Cut-Flower Border",
+  "plantName": "Zinnia State Fair",
+  "toolName": "Hand Cultivator"
+}
+
+###
+
+@id=1
+DELETE {{GardenApi_HostAddress}}/api/gardenbeds/{{id}}
+
+###
+
+//Gardenbeds--error handling
+//status
+POST {{GardenApi_HostAddress}}/api/gardenbeds
+Content-Type: application/json
+
+{
+  "BedName": "new bed2",
+  "BedState": "not legit",
+  "DatePlanted": "2027-05-15T00:00:00",
+  "GuideTitle": "Tomatoes from Seed",
+  "PlantName": "Sungold Tomato",
+  "ToolName": "Trowel"
+
+}
+###
+//date
+POST {{GardenApi_HostAddress}}/api/gardenbeds
+Content-Type: application/json
+
+{
+  "BedName": "new bed3",
+  "BedState": "Growing",
+  "DatePlanted": "2027-05-15T00:00:00",
+  "GuideTitle": "Tomatoes from Seed",
+  "PlantName": "Sungold Tomato",
+  "ToolName": "Trowel"
+
+}
+

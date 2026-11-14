@@ -1,0 +1,12 @@
+C:\Users\kmoha\source\repos\Minor Project 5\GardenModels\obj\Debug\net10.0\GardenModels.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\kmoha\source\repos\Minor Project 5\GardenModels\obj\Debug\net10.0\GardenModels.AssemblyInfoInputs.cache
+C:\Users\kmoha\source\repos\Minor Project 5\GardenModels\obj\Debug\net10.0\GardenModels.AssemblyInfo.cs
+C:\Users\kmoha\source\repos\Minor Project 5\GardenModels\obj\Debug\net10.0\GardenModels.csproj.CoreCompileInputs.cache
+C:\Users\kmoha\source\repos\Minor Project 5\GardenModels\bin\Debug\net10.0\GardenModels.deps.json
+C:\Users\kmoha\source\repos\Minor Project 5\GardenModels\bin\Debug\net10.0\GardenModels.dll
+C:\Users\kmoha\source\repos\Minor Project 5\GardenModels\bin\Debug\net10.0\GardenModels.pdb
+C:\Users\kmoha\source\repos\Minor Project 5\GardenModels\obj\Debug\net10.0\GardenModels.dll
+C:\Users\kmoha\source\repos\Minor Project 5\GardenModels\obj\Debug\net10.0\refint\GardenModels.dll
+C:\Users\kmoha\source\repos\Minor Project 5\GardenModels\obj\Debug\net10.0\GardenModels.pdb
+C:\Users\kmoha\source\repos\Minor Project 5\GardenModels\obj\Debug\net10.0\ref\GardenModels.dll
+C:\Users\kmoha\source\repos\Minor Project 5\GardenModels\obj\Debug\net10.0\GardenMo.4662B949.Up2Date

@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="../kmohalla/GardenTracker-BlazorWebApp/GardenData/GardenData.csproj" />
+  <Project Path="GardenApi/GardenApi.csproj" />
+  <Project Path="GardenBusiness/GardenBusiness.csproj" />
+  <Project Path="GardenModels/GardenModels.csproj" Id="9e461750-dbbb-4ee7-91e2-4ea109ce3bfa" />
+</Solution>
