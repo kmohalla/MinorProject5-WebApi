@@ -19,13 +19,20 @@ namespace GardenBusiness
             }
             else
             {
-                throw new ApplicationException($"GardenBed with id {gardenBedId} not found.");
+                throw new ApplicationException($"Garden bed with id {gardenBedId} not found.");
             }
         }
         public async Task<List<GardenBed>> GetAllGardenBeds()
         {
             var gardenBeds = await _context.GetAllGardenBedsAsync();
-            return gardenBeds;
+            if (gardenBeds != null && gardenBeds.Count > 0)
+            {
+                return gardenBeds;
+            }
+            else
+            {
+                throw new ApplicationException("No garden beds found.");
+            }
         }
 
         public async Task<String> SaveGardenBed(GardenBed gardenBed, bool isNewGardenBed)
@@ -45,15 +52,14 @@ namespace GardenBusiness
                 }
                 catch (Exception ex)
                 {
-                    //TODO: remove the message from the exception after testing
-                    throw new ApplicationException($"Error updating garden bed with id {gardenBed.Id}: {ex.Message}");
+                    throw new ApplicationException($"Error updating garden bed with id {gardenBed.Id}");
                 }
             }
             else
             {
                 throw new ApplicationException("Garden Bed is not valid. Please check the status (Planned, Growing, Harvested). If the status is growing or harvested the planted date cannot be in the future.");
             }
-            return "Garden Bed saved successfully.";
+            return $"Garden Bed with id {gardenBed.Id} saved successfully.";
         }
         public async Task<String> DeleteGardenBed(int gardenBedId)
         {
@@ -63,10 +69,9 @@ namespace GardenBusiness
             }
             catch (Exception ex)
             {
-                //TODO: remove the message from the exception after testing
-                throw new ApplicationException($"Error deleting garden bed with id {gardenBedId}: {ex.Message} Try Again later");
+                throw new ApplicationException($"Error deleting garden bed with id {gardenBedId}");
             }
-            return "Garden Bed deleted successfully.";
+            return $"Garden Bed with id {gardenBedId} deleted successfully.";
         }
         private bool ValidateGardenBed(GardenBed gardenBed)
         {
@@ -118,7 +123,7 @@ namespace GardenBusiness
             Tool? existingTool =gardenBedDTO.ToolName ==null? null : await _context.FindToolByType(gardenBedDTO.ToolName);
             if (existingTool == null)
             {
-                throw new ApplicationException($"Tool with type {gardenBedDTO.ToolName} not found.");
+                throw new ApplicationException($"Tool with name {gardenBedDTO.ToolName} not found.");
             }
 
 

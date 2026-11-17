@@ -59,15 +59,14 @@ namespace GardenBusiness
                 }
                 catch (Exception ex)
                 {
-                    //TODO: remove the message from the exception after testing
-                    throw new ApplicationException($"Error updating plant with id {plant.Id}: {ex.Message}");
+                    throw new ApplicationException($"Error updating plant with id {plant.Id}");
                 }
             }
             else
             {
                 throw new ApplicationException("Plant validation failed. Please check that the plant has a unique name");
             }
-            return "Plant saved successfully.";
+            return $"Plant with id {plant.Id} saved successfully.";
         }
         public async Task<String> DeletePlant(int plantId)
         {
@@ -88,7 +87,7 @@ namespace GardenBusiness
                 throw new ApplicationException($"Error deleting plant with id {plantId}: {ex.Message} r");
             }
 
-            return "Plant deleted successfully.";
+            return $"Plant with id {plantId} deleted successfully.";
         }
         private async Task<bool> ValidatePlantSave(Plant plant)
         {
@@ -115,6 +114,7 @@ namespace GardenBusiness
         }
         private async Task<bool> ValidatePlantDelete(Plant plant)
         {
+            //plant isnt in any bed
             List<GardenBed> beds = await _context.GetAllGardenBedsAsync();
             foreach (GardenBed bed in beds)
             {
@@ -145,7 +145,7 @@ namespace GardenBusiness
             Supplier? existingSupplier = plantDTO.SourceName == null ? null : await _context.FindSupplierByName(plantDTO.SourceName);
             if (existingSupplier == null)
             {
-                throw new ApplicationException($"Supplier with name {plantDTO.SourceName} not found.");
+                throw new ApplicationException($"Supplier with sourcename {plantDTO.SourceName} not found.");
             }
             return new Plant
             {
@@ -164,7 +164,7 @@ namespace GardenBusiness
             Supplier? existingSupplier = plantDTO.SourceName == null ? null : await _context.FindSupplierByName(plantDTO.SourceName);
             if (existingSupplier == null)
             {
-                throw new ApplicationException($"Supplier with name {plantDTO.SourceName} not found.");
+                throw new ApplicationException($"Supplier with sourcename {plantDTO.SourceName} not found.");
             }
             existingPlant.Name = plantDTO.CommonName;
             existingPlant.Family = plantDTO.Family;

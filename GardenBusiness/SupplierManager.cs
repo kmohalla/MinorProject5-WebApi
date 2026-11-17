@@ -1,5 +1,6 @@
 ﻿using GardenData;
 using GardenModels;
+using Microsoft.EntityFrameworkCore.Update.Internal;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -55,11 +56,10 @@ namespace GardenBusiness
                 }
                 catch (Exception ex)
                 {
-                    //TODO: remove the message from the exception after testing
-                    throw new ApplicationException($"Error updating supplier with id {supplier.Id}: {ex.Message}");
+                    throw new ApplicationException($"Error updating supplier with id {supplier.Id}");
                 }
             }
-            return "Supplier saved successfully.";
+            return $"Supplier with id {supplier.Id} saved successfully.";
         }
         public async Task<String> DeleteSupplier(int supplierId)
         {
@@ -68,7 +68,7 @@ namespace GardenBusiness
             bool isValid = ValidateSupplier(supplier);
             if (!isValid)
             {
-                throw new ApplicationException("Supplier can't be deleted while a plant is linked to it.");
+                throw new ApplicationException($"Supplier with id {supplierId} can't be deleted while a plant is linked to it. Supplier is linked to {supplier.Plants.Count} plants.");
             }
             try
             {
@@ -77,10 +77,10 @@ namespace GardenBusiness
             catch (Exception ex)
             {
                 //TODO: delete message after debugging
-                throw new ApplicationException($"Error deleting supplier with id {supplierId}: {ex.Message} r");
+                throw new ApplicationException($"Error deleting supplier with id {supplierId}");
             }
 
-            return "Supplier deleted successfully.";
+            return $"Supplier with id {supplierId} deleted successfully.";
         }
         private static bool ValidateSupplier(Supplier supplier)
         {
@@ -91,12 +91,12 @@ namespace GardenBusiness
             else
             {
                 return false;
-                throw new ApplicationException("Supplier can't be deleted while a plant is linked to it.");
+                throw new ApplicationException($"Supplier can't be deleted while a plant is linked to it. Supplier is linked to {supplier.Plants.Count} plants." );
             }
         }
 
         //Data conversion methods to convert between DTO and entity classes
-        public static SupplierDTO ConverttoDTO(Supplier supplier)
+        public static SupplierDTO ConvertToDTO(Supplier supplier)
         {
             // Convert the list of Plant objects to a list of plant names
             List<string> plantNames = new();
@@ -116,7 +116,7 @@ namespace GardenBusiness
             };
         }
 
-        public async Task<Supplier> ConverttoData(SupplierDTO supplierDTO)
+        public async Task<Supplier> ConvertToData(SupplierDTO supplierDTO)
         {
             // Convert the list of plant names to a list of Plant objects
             List<Plant> plants = new();
@@ -139,6 +139,25 @@ namespace GardenBusiness
                 State = supplierDTO.Location,
                 Plants = plants
             };
+        }
+        public async Task UpdateFromDTO(Supplier existingSupplier, SupplierDTO supplierDTO)
+        {
+            existingSupplier.Name = supplierDTO.Supplier;
+            existingSupplier.State = supplierDTO.Location;
+            List<Plant> plants = new();
+            if (supplierDTO.Plants != null)
+            {
+                foreach (var plantName in supplierDTO.Plants)
+                {
+                    List<Plant> matchingPlants = await _context.SearchAsync(name: plantName, family: "", color: "");
+                    Plant? existingPlant = matchingPlants.FirstOrDefault();
+                    if (existingPlant != null)
+                    {
+                        plants.Add(existingPlant);
+                    }
+                }
+            }
+            existingSupplier.Plants = plants;
         }
     }
 }

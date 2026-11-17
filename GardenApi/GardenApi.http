@@ -7,13 +7,16 @@ Accept: application/json
 
 ###
 
+//
 //Gardenbeds--standard behavior
 GET {{GardenApi_HostAddress}}/api/gardenbeds
 
 ###
 
-@id=2
-GET {{GardenApi_HostAddress}}/api/gardenbeds/{{id}}
+//erroralways returns bed 1?--fixed. used incorrect overriding method for id field
+//@id=5
+//GET {{GardenApi_HostAddress}}/api/gardenbeds/{{id}}
+GET {{GardenApi_HostAddress}}/api/gardenbeds/5
 
 ###
 POST {{GardenApi_HostAddress}}/api/gardenbeds
@@ -32,28 +35,28 @@ Content-Type: application/json
 ###
 
 @id=3
-PUT {{GardenApi_HostAddress}}/api/gardenbeds/{{id}}
+PUT {{GardenApi_HostAddress}}/api/gardenbeds/3
 Content-Type: application/json
 
 {
   "id": 3,
-  "bedName": "Front Walk Flowers-edited",
-  "bedState": "Harvested",
-  "datePllanted": "2026-05-28T00:00:00",
-  "guideTitle": "Cut-Flower Border",
-  "plantName": "Zinnia State Fair",
-  "toolName": "Hand Cultivator"
+  "BedName": "Front Walk Flowers-edited",
+  "BedState": "Harvested",
+  "DatePlanted": "2026-05-28T00:00:00",
+  "GuideTitle": "Cut-Flower Border",
+  "PlantName": "Zinnia State Fair",
+  "ToolName": "Hand Cultivator"
 }
 
 ###
 
-@id=1
-DELETE {{GardenApi_HostAddress}}/api/gardenbeds/{{id}}
+@id=7
+DELETE {{GardenApi_HostAddress}}/api/gardenbeds/7
 
 ###
 
-//Gardenbeds--error handling
-//status
+//Gardenbeds--business logic testing
+//status in expected list: Planned, Growing, Harvested
 POST {{GardenApi_HostAddress}}/api/gardenbeds
 Content-Type: application/json
 
@@ -67,7 +70,7 @@ Content-Type: application/json
 
 }
 ###
-//date
+//date for growing and harvested in the past, not future
 POST {{GardenApi_HostAddress}}/api/gardenbeds
 Content-Type: application/json
 
@@ -81,3 +84,502 @@ Content-Type: application/json
 
 }
 
+###
+
+
+//
+//Guides--standard behavior
+
+GET {{GardenApi_HostAddress}}/api/guides
+
+###
+
+//@id=1
+GET {{GardenApi_HostAddress}}/api/guides/5
+
+###
+
+POST {{GardenApi_HostAddress}}/api/guides
+Content-Type: application/json
+
+{
+  "Title": "new guide",
+  "Author": "Rosa Delgado",
+  "PlantingSeason": "Spring",
+  "Difficulty": "Intermediate"
+}
+
+###
+@id=5
+PUT {{GardenApi_HostAddress}}/api/guides/5
+Content-Type: application/json
+
+{
+  "id": 5,
+  "title": "Strawberry Bed Renewal--edited",
+  "author": "Rosa Delgado",
+  "plantingSeason": "Fall",
+  "difficulty": "Advanced"
+}
+
+###
+@id=7
+DELETE {{GardenApi_HostAddress}}/api/guides/7
+
+###
+//Guides--business logic
+//season in expected list: Spring, Summer, Fall, Winter
+POST {{GardenApi_HostAddress}}/api/guides
+Content-Type: application/json
+
+{
+  "Title": "new guide2",
+  "Author": "Rosa Delgado",
+  "PlantingSeason": "not Spring",
+  "Difficulty": "Intermediate"
+}
+
+###
+//Difficulties in expected list:Beginner, Intermediate, Advanced
+//@id=2
+PUT {{GardenApi_HostAddress}}/api/guides/2
+Content-Type: application/json
+
+{
+  "Id": 2,
+  "Title": "Tomatoes from Seed",
+  "Author": "Rosa Delgado",
+  "PlantingSeason": "Spring",
+  "Difficulty": "not Intermediate"
+}
+
+###
+
+POST {{GardenApi_HostAddress}}/api/guides
+Content-Type: application/json
+
+{
+  "Title": "new guide2",
+  "Author": "Rosa Delgado",
+  "PlantingSeason": "Spring",
+  "Difficulty": "not Intermediate"
+}
+
+###
+
+
+//
+//Plants--standard behavior
+
+GET {{GardenApi_HostAddress}}/api/plants
+
+###
+
+@id=6
+GET {{GardenApi_HostAddress}}/api/plants/6
+
+###
+
+POST {{GardenApi_HostAddress}}/api/plants
+Content-Type: application/json
+
+{
+    "CommonName": "new plant",
+    "Family": "Nightshade",
+    "Type": "Vegetable",
+    "Color": "Dusky Purple",
+    "SourceName": "Heirloom Harvest Co."
+ 
+}
+
+###
+
+//error: supplier with name not found--fixed? worked when I ran it the 3rd time...
+@id=1
+PUT {{GardenApi_HostAddress}}/api/plants/1
+Content-Type: application/json
+
+{
+    "id": 1,
+    "commonName": "Cherokee Purple Tomato--edted",
+    "family": "Nightshade",
+    "type": "Vegetable",
+    "color": "Dusky Green",
+    "sourceName": "Heirloom Harvest Co."
+}
+
+###
+
+//always get error: Plant can't be deleted while it's linked to a bed.-- fixed, id overloading was incorrect
+@id=9
+DELETE {{GardenApi_HostAddress}}/api/plants/9
+
+###
+
+//Plants--business logic
+//plant has name
+POST {{GardenApi_HostAddress}}/api/plants
+Content-Type: application/json
+
+{
+    "commonName": "      ",
+    "family": "Nightshade",
+    "type": "Vegetable",
+    "color": "Dusky Purple",
+    "sourceName": "Heirloom Harvest Co."
+ 
+}
+
+###
+POST {{GardenApi_HostAddress}}/api/plants
+Content-Type: application/json
+
+{
+    "Family": "Nightshade",
+    "Type": "Vegetable",
+    "Color": "Dusky Purple",
+    "SourceName": "Heirloom Harvest Co."
+ 
+}
+
+###
+//plant name is trimmed of whitespace (verify with get after post)
+POST {{GardenApi_HostAddress}}/api/plants
+Content-Type: application/json
+
+{
+    "CommonName": "new plant2       ",
+    "Family": "Nightshade",
+    "Type": "Vegetable",
+    "Color": "Dusky Purple",
+    "SourceName": "Heirloom Harvest Co."
+ 
+}
+
+###
+//plant name is trimmed of whitespace (verify with get after post)
+POST {{GardenApi_HostAddress}}/api/plants
+Content-Type: application/json
+
+{
+    "CommonName": "             new plant3       ",
+    "Family": "Nightshade",
+    "Type": "Vegetable",
+    "Color": "Dusky Purple",
+    "SourceName": "Heirloom Harvest Co."
+ 
+}
+
+###
+//plant does not already exist
+POST {{GardenApi_HostAddress}}/api/plants
+Content-Type: application/json
+
+{
+    "CommonName": "new plant2",
+    "Family": "Nightshade",
+    "Type": "Vegetable",
+    "Color": "Dusky Purple",
+    "SourceName": "Heirloom Harvest Co."
+ 
+}
+
+###
+//deleting plant is not in any bed (try plant that is definitely in a bed)
+@id=1
+DELETE {{GardenApi_HostAddress}}/api/plants/1
+###
+
+
+//
+//Supplies--standard behavior
+GET {{GardenApi_HostAddress}}/api/suppliers
+
+###
+//ERROR: when plant list not null, get supplier by id throws exception--fixed with propper id overridd
+@id=3
+GET {{GardenApi_HostAddress}}/api/suppliers/3
+
+###
+
+POST {{GardenApi_HostAddress}}/api/suppliers
+Content-Type: application/json
+
+{
+  "Supplier": "new",
+  "Location": "Vermont",
+  "Plants": [
+    "Sungold Tomato",
+    "Genovese Basil"
+  ]
+}
+
+###
+
+@id=6
+PUT {{GardenApi_HostAddress}}/api/suppliers/6
+Content-Type: application/json
+
+{
+  "Id": 6,
+  "Supplier": "Green Thumb Seeds--edited",
+  "Location": "Vermont",
+  "Plants": []
+}
+
+###
+// error: always bad request-- fixed with correct id override
+@id=2
+PUT {{GardenApi_HostAddress}}/api/suppliers/2
+Content-Type: application/json
+{
+  "Id": 2,
+  "Supplier": "Sunny Acres Nursery",
+  "Location": "Ohio",
+  "Plants": [
+    "Zinnia State Fair",
+    "Everbearing Strawberry"
+  ]
+}
+
+###
+
+@id=6
+DELETE {{GardenApi_HostAddress}}/api/suppliers/6
+
+###
+//Suppliers--business logic
+//can't delete supplier if it is being used by a plant
+
+@id=3
+DELETE {{GardenApi_HostAddress}}/api/suppliers/3
+
+###
+
+
+
+//
+//Tools--standard behavior
+
+GET {{GardenApi_HostAddress}}/api/tools
+
+###
+
+@id=3
+GET {{GardenApi_HostAddress}}/api/tools/3
+
+###
+
+POST {{GardenApi_HostAddress}}/api/tools
+Content-Type: application/json
+
+{
+    "ToolWeightMetricKg": 0.25,
+    "ToolWeightImperialLbs": 0.5511550,
+    "ToolName": "Trowel2",
+    "Material": "Stainless Steel",
+    "ToolLengthMetricCm": 30,
+    "ToolLengthImperialIn": 11
+}
+
+###
+
+@id=5
+PUT {{GardenApi_HostAddress}}/api/tools/5
+Content-Type: application/json
+
+{
+  "id": 5,
+  "toolWeightMetricKg": 0.30,
+  "toolWeightImperialLbs": 0.6613860,
+  "toolName": "Pruner--edited",
+  "material": "Carbon Steel",
+  "toolLengthMetricCm": 20,
+  "toolLengthImperialIn": 7
+}
+
+###
+
+@id=9
+DELETE {{GardenApi_HostAddress}}/api/tools/9
+
+###
+//Tools--business logic
+//weight is at least 0.05 kg
+POST {{GardenApi_HostAddress}}/api/tools
+Content-Type: application/json
+
+{
+    "toolWeightMetricKg": 0,
+    "toolWeightImperialLbs": 0.5511550,
+    "toolName": "Trowel2",
+    "material": "Stainless Steel",
+    "toolLengthMetricCm": 30,
+    "toolLengthImperialIn": 11
+  }
+
+###
+//weight not more than 25 kg
+POST {{GardenApi_HostAddress}}/api/tools
+Content-Type: application/json
+
+{
+    "toolWeightMetricKg": 250,
+    "toolWeightImperialLbs": 0.5511550,
+    "toolName": "Trowel2",
+    "material": "Stainless Steel",
+    "toolLengthMetricCm": 30,
+    "toolLengthImperialIn": 11
+  }
+
+###
+//imperial weight min
+POST {{GardenApi_HostAddress}}/api/tools
+Content-Type: application/json
+
+{
+    "toolWeightMetricKg": 0,
+    "toolWeightImperialLbs": 0.08,
+    "toolName": "Hoe",
+    "material": "Steel/Ash",
+    "toolLengthMetricCm": 150
+}
+
+###
+@id=3
+PUT {{GardenApi_HostAddress}}/api/tools/3
+Content-Type: application/json
+
+{
+    "id": 3,
+    "toolWeightMetricKg": 1.40,
+    "toolWeightImperialLbs": 0,
+    "toolName": "Hoe",
+    "material": "Steel/Ash",
+    "toolLengthMetricCm": 150,
+    "toolLengthImperialIn": 59
+}
+
+###
+//imperial weight max
+POST {{GardenApi_HostAddress}}/api/tools
+Content-Type: application/json
+
+{
+    "id": 3,
+    "toolWeightMetricKg":0,
+    "toolWeightImperialLbs":5703,
+    "toolName": "Hoe",
+    "material": "Steel/Ash",
+    "toolLengthMetricCm": 150,
+    "toolLengthImperialIn": 0
+}
+
+###
+@id=3
+PUT {{GardenApi_HostAddress}}/api/tools/3
+Content-Type: application/json
+
+{
+    "id": 3,
+    "toolWeightMetricKg": 1.40,
+    "toolWeightImperialLbs": 5000,
+    "toolName": "Hoe",
+    "material": "Steel/Ash",
+    "toolLengthMetricCm": 150,
+    "toolLengthImperialIn": 59
+}
+
+###
+
+//length is at least 5cm 
+POST {{GardenApi_HostAddress}}/api/tools
+Content-Type: application/json
+
+{
+    "toolWeightMetricKg": 0.25,
+    "toolWeightImperialLbs": 0,
+    "toolName": "Trowel2",
+    "material": "Stainless Steel",
+    "toolLengthMetricCm": 3,
+    "toolLengthImperialIn": 11
+  }
+
+###
+
+
+###
+//length not more than 300cm
+POST {{GardenApi_HostAddress}}/api/tools
+Content-Type: application/json
+
+{
+    "toolWeightMetricKg": 0.25,
+    "toolWeightImperialLbs": 0,
+    "toolName": "Trowel2",
+    "material": "Stainless Steel",
+    "toolLengthMetricCm": 3000,
+    "toolLengthImperialIn": 11
+  }
+
+###
+//imperial length min
+POST {{GardenApi_HostAddress}}/api/tools
+Content-Type: application/json
+
+{
+    "id": 3,
+    "toolWeightMetricKg": 1.40,
+    "toolWeightImperialLbs": 3.0864680,
+    "toolName": "Hoe",
+    "material": "Steel/Ash",
+    "toolLengthImperialIn": 1
+}
+
+###
+@id=3
+PUT {{GardenApi_HostAddress}}/api/tools/3
+Content-Type: application/json
+
+{
+    "id": 3,
+    "toolWeightMetricKg": 1.40,
+    "toolWeightImperialLbs": 3.0864680,
+    "toolName": "Hoe",
+    "material": "Steel/Ash",
+    "toolLengthMetricCm": 150,
+    "toolLengthImperialIn": 0
+}
+
+###
+//imperial length max
+POST {{GardenApi_HostAddress}}/api/tools
+Content-Type: application/json
+
+{
+    "id": 3,
+    "toolWeightMetricKg": 1.40,
+    "toolWeightImperialLbs": 3.0864680,
+    "toolName": "Hoe",
+    "material": "Steel/Ash",
+    "toolLengthImperialIn": 119
+}
+  
+
+###
+
+@id=3
+PUT {{GardenApi_HostAddress}}/api/tools/3
+Content-Type: application/json
+
+{
+    "id": 3,
+    "toolWeightMetricKg": 1.40,
+    "toolWeightImperialLbs": 3.0864680,
+    "toolName": "Hoe",
+    "material": "Steel/Ash",
+    "toolLengthMetricCm": 150,
+    "toolLengthImperialIn": 15000
+}
+
+###

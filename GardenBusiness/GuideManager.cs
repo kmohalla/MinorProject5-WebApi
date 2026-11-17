@@ -22,7 +22,7 @@ namespace GardenBusiness
             }
             else
             {
-                throw new ApplicationException($"Tool with id {guideId} not found.");
+                throw new ApplicationException($"Guide with id {guideId} not found.");
             }
         }
         public async Task<List<Guide>> GetAllGuides()
@@ -34,7 +34,7 @@ namespace GardenBusiness
             }
             else
             {
-                throw new ApplicationException("No tools found.");
+                throw new ApplicationException("No guides found.");
             }
         }
 
@@ -56,14 +56,14 @@ namespace GardenBusiness
                 catch (Exception ex)
                 {
                     //TODO: remove the message from the exception after testing
-                    throw new ApplicationException($"Error updating guide with id {guide.Id}: {ex.Message}");
+                    throw new ApplicationException($"Error updating guide with id {guide.Id}");
                 }
             }
             else
             {
                 throw new ApplicationException("Guide is not valid. Please check the season (Spring, Summer, Winter, Fall) and difficulty (Beginner, Intermediate, Advanced) input values.");
             }
-            return "Guide saved successfully.";
+            return $"Guide with id {guide.Id} saved successfully.";
         }
         public async Task<String> DeleteGuide(int guideId)
         {
@@ -73,10 +73,10 @@ namespace GardenBusiness
             }
             catch (Exception ex)
             {
-                //TODO: remove the message from the exception after testing
-                throw new ApplicationException($"Error deleting guide with id {guideId}: {ex.Message} Try Again later");
+                
+                throw new ApplicationException($"Error deleting guide with id {guideId}.");
             }
-            return "Guide deleted successfully.";
+            return $"Guide with id {guideId} deleted successfully.";
         }
         private bool ValidateGuide(Guide guide)
         {
