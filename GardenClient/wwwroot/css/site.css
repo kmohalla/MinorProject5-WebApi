@@ -1,0 +1,276 @@
+/* site.css — Garden Planner theme.
+   All colors live in the variables below. data-theme="dark" on <html>
+   (set by theme.js) swaps them, so every part of the page changes at once. */
+
+:root,
+:root[data-theme="light"] {
+    --bg: #f3f8ef;
+    --surface: #ffffff;
+    --surface-2: #eaf3e4;
+    --text: #1d2b1c;
+    --muted: #586a55;
+    --border: #cddfc4;
+    --primary: #2e7d32;
+    --primary-hover: #23642a;
+    --primary-text: #ffffff;
+    --accent: #7cb342;
+    --danger: #b3261e;
+    --danger-hover: #8f1e18;
+    --danger-bg: #fdeceb;
+    --success-bg: #e3f2dd;
+    --info-bg: #eef4ea;
+    --stripe: #f5faf2;
+    --focus: #1b5e20;
+    --vine-stem: #4e7d38;
+    --vine-leaf: #66a34a;
+    --vine-leaf-alt: #8cc152;
+    color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+    --bg: #0e1910;
+    --surface: #152318;
+    --surface-2: #1b2d1f;
+    --text: #e2eee0;
+    --muted: #a2b69e;
+    --border: #2b4230;
+    --primary: #6fbf73;
+    --primary-hover: #8fd193;
+    --primary-text: #0e1910;
+    --accent: #9ccc65;
+    --danger: #f28b82;
+    --danger-hover: #f6aea8;
+    --danger-bg: #3a1d1b;
+    --success-bg: #1d3621;
+    --info-bg: #182a1c;
+    --stripe: #182a1c;
+    --focus: #a5d6a7;
+    --vine-stem: #7fae66;
+    --vine-leaf: #4e8f3a;
+    --vine-leaf-alt: #7cb342;
+    color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* ---------- Vines ---------- */
+.vine {
+    display: block;
+    width: 100%;
+    height: 48px;
+}
+.vine-stem,
+.vine-tendril {
+    fill: none;
+    stroke: var(--vine-stem);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+}
+.vine-tendril { stroke-width: 1.5; }
+.vine-leaf { fill: var(--vine-leaf); }
+.vine-leaf-alt { fill: var(--vine-leaf-alt); }
+.vine-bottom { transform: scaleY(-1); }
+
+/* ---------- Header, tabs, layout ---------- */
+.site-header,
+.tabs,
+main,
+.site-footer p {
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.site-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 4px;
+    padding-bottom: 12px;
+}
+.site-header h1 {
+    margin: 0;
+    font-size: 2rem;
+    color: var(--primary);
+    letter-spacing: 0.5px;
+}
+.subtitle { margin: 2px 0 0; color: var(--muted); }
+
+.tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    border-bottom: 2px solid var(--border);
+}
+.tab {
+    font: inherit;
+    padding: 8px 16px;
+    border: 1px solid transparent;
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    margin-bottom: -2px;
+}
+.tab:hover { color: var(--text); background: var(--surface-2); }
+.tab[aria-selected="true"] {
+    background: var(--surface);
+    color: var(--primary);
+    border-color: var(--border);
+    border-bottom: 2px solid var(--surface);
+    font-weight: 600;
+}
+
+main { padding-top: 20px; padding-bottom: 20px; }
+
+.panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 6px solid var(--accent);
+    border-radius: 12px;
+    padding: 20px 24px;
+}
+.panel h2 {
+    margin: 0 0 14px;
+    color: var(--primary);
+}
+/* A small leaf before each section heading */
+.panel h2::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    vertical-align: -2px;
+    background: var(--vine-leaf);
+    border-radius: 0 70% 0 70%;
+    transform: rotate(-10deg);
+}
+
+/* ---------- Toolbar, forms, buttons ---------- */
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 12px 24px;
+    margin-bottom: 12px;
+}
+.by-id { display: flex; align-items: flex-end; gap: 8px; }
+.by-id label { display: flex; align-items: center; gap: 8px; }
+.by-id input { width: 7em; }
+
+label { font-weight: 600; color: var(--text); }
+
+input,
+select {
+    font: inherit;
+    font-weight: 400;
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 7px 10px;
+}
+input:focus,
+select:focus,
+button:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+}
+
+.btn {
+    font: inherit;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--primary);
+    background: var(--primary);
+    color: var(--primary-text);
+    cursor: pointer;
+}
+.btn:hover { background: var(--primary-hover); border-color: var(--primary-hover); }
+.btn-secondary {
+    background: transparent;
+    color: var(--primary);
+}
+.btn-secondary:hover { background: var(--surface-2); color: var(--primary); }
+.btn-danger {
+    background: transparent;
+    color: var(--danger);
+    border-color: var(--danger);
+}
+.btn-danger:hover { background: var(--danger-bg); color: var(--danger-hover); border-color: var(--danger-hover); }
+.btn-small { padding: 4px 10px; font-size: 0.9rem; }
+
+/* ---------- Messages ---------- */
+.message:empty { display: none; }
+.message {
+    margin: 10px 0;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border-left: 4px solid var(--border);
+}
+.message-success { background: var(--success-bg); border-left-color: var(--primary); }
+.message-error { background: var(--danger-bg); border-left-color: var(--danger); color: var(--text); }
+.message-info { background: var(--info-bg); border-left-color: var(--accent); }
+
+/* ---------- Tables ---------- */
+.table-wrap { overflow-x: auto; margin-top: 8px; }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+th, td {
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+}
+th {
+    background: var(--surface-2);
+    color: var(--text);
+    font-weight: 600;
+}
+tbody tr:nth-child(even) { background: var(--stripe); }
+th.num, td.num { text-align: right; font-variant-numeric: tabular-nums; }
+td.actions .btn + .btn { margin-left: 6px; }
+
+/* ---------- Plant form ---------- */
+.record-form {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px dashed var(--border);
+}
+.record-form h3 { margin: 0 0 12px; }
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px 16px;
+}
+.form-grid label { display: flex; flex-direction: column; gap: 4px; }
+.form-actions { display: flex; gap: 10px; margin-top: 16px; }
+
+/* ---------- Footer ---------- */
+.site-footer { margin-top: 12px; }
+.site-footer p { color: var(--muted); font-size: 0.85rem; margin-top: 0; padding-bottom: 12px; }
+
+@media (max-width: 600px) {
+    .panel { padding: 16px; }
+    .site-header h1 { font-size: 1.6rem; }
+}

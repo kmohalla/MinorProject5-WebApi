@@ -23,7 +23,8 @@ namespace GardenBusiness
             }
             else
             {
-                throw new ApplicationException($"Plant with id {plantId} not found.");
+                // throw new ApplicationException($"Plant with id {plantId} not found."); //only business logic errors should be thrown here. the rest are handeled by the API
+                return null;
             }
         }
         public async Task<List<Plant>> GetAllPlants()
@@ -35,7 +36,8 @@ namespace GardenBusiness
             }
             else
             {
-                throw new ApplicationException("No plants found.");
+                //throw new ApplicationException("No plants found.");
+                return null;
             }
         }
 
@@ -66,6 +68,7 @@ namespace GardenBusiness
             {
                 throw new ApplicationException("Plant validation failed. Please check that the plant has a unique name");
             }
+           
             return $"Plant with id {plant.Id} saved successfully.";
         }
         public async Task<String> DeletePlant(int plantId)
@@ -83,8 +86,8 @@ namespace GardenBusiness
             }
             catch (Exception ex)
             {
-                //TODO: delete message after testing
-                throw new ApplicationException($"Error deleting plant with id {plantId}: {ex.Message} r");
+                
+                throw new ApplicationException($"Error deleting plant with id {plantId}");
             }
 
             return $"Plant with id {plantId} deleted successfully.";
@@ -106,8 +109,13 @@ namespace GardenBusiness
            
             if (sameName != null && sameName.Count > 0)
             {
-                return false;
-                //throw new ApplicationException($"Plant with name {plant.Name} already exists.");
+                foreach (var foundName in sameName)
+                {
+                    if(foundName.Id != plant.Id) { 
+                        return false;
+                        //throw new ApplicationException($"Plant with name {plant.Name} already exists.");
+                    }
+                }
             }
 
             return true;
@@ -145,7 +153,7 @@ namespace GardenBusiness
             Supplier? existingSupplier = plantDTO.SourceName == null ? null : await _context.FindSupplierByName(plantDTO.SourceName);
             if (existingSupplier == null)
             {
-                throw new ApplicationException($"Supplier with sourcename {plantDTO.SourceName} not found.");
+                throw new ApplicationException($"SourceName {plantDTO.SourceName} not found.");
             }
             return new Plant
             {
@@ -164,7 +172,7 @@ namespace GardenBusiness
             Supplier? existingSupplier = plantDTO.SourceName == null ? null : await _context.FindSupplierByName(plantDTO.SourceName);
             if (existingSupplier == null)
             {
-                throw new ApplicationException($"Supplier with sourcename {plantDTO.SourceName} not found.");
+                throw new ApplicationException($"SourceName {plantDTO.SourceName} not found.");
             }
             existingPlant.Name = plantDTO.CommonName;
             existingPlant.Family = plantDTO.Family;

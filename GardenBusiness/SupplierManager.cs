@@ -24,7 +24,8 @@ namespace GardenBusiness
             }
             else
             {
-                throw new ApplicationException($"Supplier with id {supplierId} not found.");
+                //throw new ApplicationException($"Supplier with id {supplierId} not found.");//only business rules should throw exceptions here, the API handles the rest
+                return null;
             }
         }
         public async Task<List<Supplier>> GetAllSuppliers()
@@ -36,7 +37,8 @@ namespace GardenBusiness
             }
             else
             {
-                throw new ApplicationException("No suppliers found.");
+                //throw new ApplicationException("No suppliers found.");
+                return null;
             }
         }
 
@@ -76,7 +78,6 @@ namespace GardenBusiness
             }
             catch (Exception ex)
             {
-                //TODO: delete message after debugging
                 throw new ApplicationException($"Error deleting supplier with id {supplierId}");
             }
 

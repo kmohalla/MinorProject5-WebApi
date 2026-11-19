@@ -19,7 +19,8 @@ namespace GardenBusiness
             }
             else
             {
-                throw new ApplicationException($"Garden bed with id {gardenBedId} not found.");
+                // throw new ApplicationException($"Garden bed with id {gardenBedId} not found."); //only business rules should throw exceptions here, the rest should be handled by hte API
+                return null;
             }
         }
         public async Task<List<GardenBed>> GetAllGardenBeds()
@@ -31,7 +32,8 @@ namespace GardenBusiness
             }
             else
             {
-                throw new ApplicationException("No garden beds found.");
+                //throw new ApplicationException("No garden beds found.");
+                return null;
             }
         }
 

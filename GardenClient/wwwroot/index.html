@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Garden Planner</title>
+    <link rel="stylesheet" href="css/site.css" />
+    <!-- Sets light or dark mode before the page is drawn, so there is no flash -->
+    <script src="js/theme.js"></script>
+    <!-- The main client code; "defer" runs it after the page has loaded -->
+    <script src="js/app.js" defer></script>
+</head>
+<body>
+
+    <!-- A repeating vine drawn across the top of the page -->
+    <svg class="vine vine-top" aria-hidden="true" focusable="false">
+        <defs>
+            <pattern id="vinePattern" width="120" height="48" patternUnits="userSpaceOnUse">
+                <path class="vine-stem" d="M0 24 C 30 4, 60 4, 60 24 S 90 44, 120 24" />
+                <path class="vine-tendril" d="M60 24 c 4 -7, 13 -5, 11 1 c -1 4, -6 3, -5 0" />
+                <path class="vine-leaf" transform="translate(28 11) rotate(-30)" d="M0 0 C 4 -6, 12 -6, 16 0 C 12 6, 4 6, 0 0 Z" />
+                <path class="vine-leaf vine-leaf-alt" transform="translate(36 13) rotate(-145)" d="M0 0 C 3 -5, 9 -5, 12 0 C 9 5, 3 5, 0 0 Z" />
+                <path class="vine-leaf" transform="translate(88 37) rotate(30)" d="M0 0 C 4 -6, 12 -6, 16 0 C 12 6, 4 6, 0 0 Z" />
+                <path class="vine-leaf vine-leaf-alt" transform="translate(96 35) rotate(145)" d="M0 0 C 3 -5, 9 -5, 12 0 C 9 5, 3 5, 0 0 Z" />
+            </pattern>
+        </defs>
+        <rect width="100%" height="48" fill="url(#vinePattern)" />
+    </svg>
+
+    <header class="site-header">
+        <div>
+            <h1>Garden Planner</h1>
+            <p class="subtitle">Suppliers, plants, tools, guides and garden beds from the Garden API</p>
+        </div>
+        <button type="button" id="themeToggle" class="btn btn-secondary">Dark mode</button>
+    </header>
+
+    <nav class="tabs" role="tablist" aria-label="Tables">
+        <button type="button" role="tab" class="tab" data-tab="plants">Plants</button>
+        <button type="button" role="tab" class="tab" data-tab="suppliers">Suppliers</button>
+        <button type="button" role="tab" class="tab" data-tab="tools">Tools</button>
+        <button type="button" role="tab" class="tab" data-tab="guides">Guides</button>
+        <button type="button" role="tab" class="tab" data-tab="gardenBeds">Garden Beds</button>
+    </nav>
+
+    <main>
+        <!-- ===== Plants: read, plus insert / update / delete ===== -->
+        <section class="panel" id="panel-plants" data-table="plants" role="tabpanel" hidden>
+            <h2>Plants</h2>
+            <div class="toolbar">
+                <button type="button" class="btn" data-action="get-all">Get all plants</button>
+                <form class="by-id">
+                    <label>ID <input type="number" name="id" min="1" step="1" required /></label>
+                    <button type="submit" class="btn btn-secondary">Get by ID</button>
+                </form>
+            </div>
+            <div class="message" role="status" aria-live="polite"></div>
+            <div class="result"></div>
+
+            <form id="plantForm" class="record-form" novalidate>
+                <h3 id="plantFormTitle">Add a plant</h3>
+                <input type="hidden" name="id" value="0" />
+                <div class="form-grid">
+                    <label>Common name
+                        <input type="text" name="commonName" required maxlength="100" />
+                    </label>
+                    <label>Family
+                        <input type="text" name="family" required maxlength="50" />
+                    </label>
+                    <label>Type
+                        <input type="text" name="type" required maxlength="20" list="plantTypes" />
+                        <datalist id="plantTypes">
+                            <option value="Vegetable"></option>
+                            <option value="Herb"></option>
+                            <option value="Flower"></option>
+                            <option value="Fruit"></option>
+                        </datalist>
+                    </label>
+                    <label>Color
+                        <input type="text" name="color" required maxlength="50" />
+                    </label>
+                    <label>Supplier
+                        <select name="sourceName">
+                            <option value="">(none)</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn" id="plantSaveButton">Add plant</button>
+                    <button type="button" class="btn btn-secondary" id="plantClearButton">Clear</button>
+                </div>
+                <div class="message" id="plantFormMessage" role="status" aria-live="polite"></div>
+            </form>
+        </section>
+
+        <!-- ===== Suppliers ===== -->
+        <section class="panel" id="panel-suppliers" data-table="suppliers" role="tabpanel" hidden>
+            <h2>Suppliers</h2>
+            <div class="toolbar">
+                <button type="button" class="btn" data-action="get-all">Get all suppliers</button>
+                <form class="by-id">
+                    <label>ID <input type="number" name="id" min="1" step="1" required /></label>
+                    <button type="submit" class="btn btn-secondary">Get by ID</button>
+                </form>
+            </div>
+            <div class="message" role="status" aria-live="polite"></div>
+            <div class="result"></div>
+        </section>
+
+        <!-- ===== Tools ===== -->
+        <section class="panel" id="panel-tools" data-table="tools" role="tabpanel" hidden>
+            <h2>Tools</h2>
+            <div class="toolbar">
+                <button type="button" class="btn" data-action="get-all">Get all tools</button>
+                <form class="by-id">
+                    <label>ID <input type="number" name="id" min="1" step="1" required /></label>
+                    <button type="submit" class="btn btn-secondary">Get by ID</button>
+                </form>
+            </div>
+            <div class="message" role="status" aria-live="polite"></div>
+            <div class="result"></div>
+        </section>
+
+        <!-- ===== Guides ===== -->
+        <section class="panel" id="panel-guides" data-table="guides" role="tabpanel" hidden>
+            <h2>Guides</h2>
+            <div class="toolbar">
+                <button type="button" class="btn" data-action="get-all">Get all guides</button>
+                <form class="by-id">
+                    <label>ID <input type="number" name="id" min="1" step="1" required /></label>
+                    <button type="submit" class="btn btn-secondary">Get by ID</button>
+                </form>
+            </div>
+            <div class="message" role="status" aria-live="polite"></div>
+            <div class="result"></div>
+        </section>
+
+        <!-- ===== Garden Beds ===== -->
+        <section class="panel" id="panel-gardenBeds" data-table="gardenBeds" role="tabpanel" hidden>
+            <h2>Garden Beds</h2>
+            <div class="toolbar">
+                <button type="button" class="btn" data-action="get-all">Get all garden beds</button>
+                <form class="by-id">
+                    <label>ID <input type="number" name="id" min="1" step="1" required /></label>
+                    <button type="submit" class="btn btn-secondary">Get by ID</button>
+                </form>
+            </div>
+            <div class="message" role="status" aria-live="polite"></div>
+            <div class="result"></div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <svg class="vine vine-bottom" aria-hidden="true" focusable="false">
+            <rect width="100%" height="48" fill="url(#vinePattern)" />
+        </svg>
+        <p>API: <code id="apiAddress"></code></p>
+    </footer>
+
+</body>
+</html>

@@ -1,6 +1,7 @@
 <Solution>
   <Project Path="GardenApi/GardenApi.csproj" />
   <Project Path="GardenBusiness/GardenBusiness.csproj" />
+  <Project Path="GardenClient/GardenClient.csproj" Id="3d1dc8fb-f263-4340-9d9a-e38c5b24aeba" />
   <Project Path="GardenData/GardenData.csproj" />
   <Project Path="GardenModels/GardenModels.csproj" Id="9e461750-dbbb-4ee7-91e2-4ea109ce3bfa" />
 </Solution>

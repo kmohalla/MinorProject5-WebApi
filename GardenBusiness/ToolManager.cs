@@ -25,7 +25,8 @@ namespace GardenBusiness
             }
             else
             {
-                throw new ApplicationException($"Tool with id {toolId} not found.");
+                // throw new ApplicationException($"Tool with id {toolId} not found."); //exception is thrown by the API now, so null check here is not needed
+                return null;
             }
         }
         public async Task<List<Tool>> GetAllTools()
@@ -37,7 +38,8 @@ namespace GardenBusiness
             }
             else
             {
-                throw new ApplicationException("No tools found.");
+                //throw new ApplicationException("No tools found.");
+                return null;
             }
         }
 
@@ -58,7 +60,6 @@ namespace GardenBusiness
                 }
                 catch (Exception ex)
                 {
-                    //TODO: remove the message from the exception after testing
                     throw new ApplicationException($"Error updating tool with id {tool.Id}");
                 }
             }

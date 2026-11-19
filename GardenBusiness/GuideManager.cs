@@ -22,7 +22,8 @@ namespace GardenBusiness
             }
             else
             {
-                throw new ApplicationException($"Guide with id {guideId} not found.");
+                //throw new ApplicationException($"Guide with id {guideId} not found."); //only business rules should throw exceptions here, the API handles the rest
+                return null;
             }
         }
         public async Task<List<Guide>> GetAllGuides()
@@ -34,7 +35,8 @@ namespace GardenBusiness
             }
             else
             {
-                throw new ApplicationException("No guides found.");
+                //throw new ApplicationException("No guides found.");
+                return null;
             }
         }
 
@@ -55,7 +57,6 @@ namespace GardenBusiness
                 }
                 catch (Exception ex)
                 {
-                    //TODO: remove the message from the exception after testing
                     throw new ApplicationException($"Error updating guide with id {guide.Id}");
                 }
             }

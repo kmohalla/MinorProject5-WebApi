@@ -11,7 +11,7 @@ public static class PlantFunctions
 
 	public static Task<Plant?> GetPlantByIdAsync(this GardenContext db, int id)
 	{
-		return db.Plants.FirstOrDefaultAsync(m => m.Id == id);
+		return db.Plants.Include(p => p.Supplier).FirstOrDefaultAsync(m => m.Id == id);
 	}
 
 	public static async Task CreatePlantAsync(this GardenContext db, Plant plant)
